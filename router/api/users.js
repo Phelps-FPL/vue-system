@@ -77,7 +77,7 @@ router.post('/login',(req,res)=>{
                     if(err) throw err;
                     res.json({
                         success:true,
-                        token:'fan' + token
+                        token:"Bearer " + token
                     });
                 })
                 // res.json({msg:'success'});
@@ -91,7 +91,11 @@ router.post('/login',(req,res)=>{
     //@desc  返回 current的内容
     //access Private, 需要token验证
 router.get('/current',passport.authenticate('jwt',{session:false}),(req,res)=>{
-    res.json({msg:'success'})
+    res.json({
+        id:req.user.id,
+        name:req.user.name,
+        email:req.user.email
+    });
 } )
 
 module.exports = router;

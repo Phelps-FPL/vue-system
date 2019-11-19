@@ -37,7 +37,8 @@ router.post('/register',(req,res)=> {
                     name:req.body.name,
                     email:req.body.email,
                     avatar,
-                    password:req.body.password
+                    password:req.body.password,
+                    identity:req.body.identity
                 })
                 bcrypt.genSalt(10, function(err, salt) {
                     bcrypt.hash(newUser.password, salt, function(err, hash) {
@@ -65,14 +66,14 @@ router.post('/login',(req,res)=>{
     User.findOne({email})
     .then(user => {
         if(!user){
-        return res.status(404).json({email:'用户不存在!'});
+        return res.status(404).json('用户不存在!');
         }
         //密码匹配
         bcrypt.compare(password, user.password)
         .then(isMatch =>{
             // 匹配,则返回一个token
             if(isMatch){
-                const rule = {id:user.id, name:user.name};
+                const rule = {id:user.id, name:user.name,avatar:user.avatar,identity:user.identity};
                 jwt.sign(rule,keys.secretOrKey,{expiresIn:3600},(err,token)=>{
                     if(err) throw err;
                     res.json({
@@ -82,7 +83,7 @@ router.post('/login',(req,res)=>{
                 })
                 // res.json({msg:'success'});
             }else{
-                return res.status(400).json({password:'密码不正确!'});
+                return res.status(400).json('密码不正确!');
             }
         })
     })
@@ -94,7 +95,8 @@ router.get('/current',passport.authenticate('jwt',{session:false}),(req,res)=>{
     res.json({
         id:req.user.id,
         name:req.user.name,
-        email:req.user.email
+        email:req.user.email,
+        identity:req.body.identity
     });
 } )
 

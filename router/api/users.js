@@ -96,7 +96,7 @@ router.get('/current',passport.authenticate('jwt',{session:false}),(req,res)=>{
         id:req.user.id,
         name:req.user.name,
         email:req.user.email,
-        identity:req.body.identity
+        identity:req.user.identity
     });
 } )
 

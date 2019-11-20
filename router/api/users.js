@@ -14,9 +14,9 @@ const User =  require('../../models/Users');
     //rout GET api/users/test
     //@desc  返回json
     //access public
-router.get('/test',(req,res)=> {
-    res.json({msg:"login success"});
-});
+// router.get('/test',(req,res)=> {
+//     res.json({msg:"login success"});
+// });
 
 //rout POST api/users/register
 //access public

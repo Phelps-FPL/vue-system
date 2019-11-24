@@ -9,7 +9,7 @@ import store from './store'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);
-vue.prototype.$axios = axios;
+Vue.prototype.$axios = axios;
 
 new Vue({
   router,

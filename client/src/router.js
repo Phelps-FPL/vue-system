@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import  Index from '../views/Index.vue'
-import Register from '../views/Register.vue'
-import NotFound from '../views/404.vue'
-import Login from '../views/Login.vue'
+import  Index from './views/Index.vue'
+import Register from './views/Register.vue'
+import NotFound from './views/404.vue'
+import Login from './views/Login.vue'
+import Home from './views/Home.vue'
+import InfoShow from './views/InfoShow.vue'
+import Fundlist from './views/FundList.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -14,7 +17,14 @@ const routes = [
   {
     path:'/index',
     name: 'index',
-    component : Index
+    component : Index,
+    children:[
+      {path:'/', component:Home},
+      {path:'/home',name:'home', component:Home},
+      {path:'/infoshow',name:'infoshow', component:InfoShow},
+      {path:'/fundlist',name:'fundlist', component:Fundlist}
+
+    ]
   },
   {
     path:'/register',

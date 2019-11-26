@@ -1,6 +1,6 @@
 <template>
   <div class="dialog">
-    <el-dialog title="添加资金信息" :visible.sync="dialog.show">
+    <el-dialog :title="dialog.title" :visible.sync="dialog.show">
       <div class="form">
         <el-form
           ref="form"
@@ -51,19 +51,11 @@
 export default {
   name: "dia-log",
   props: {
-    dialog: Object
+    dialog: Object,
+    formData:Object
   },
   data() {
     return {
-      formData: {
-        type: "",
-        describe: "",
-        income: "",
-        expend: "",
-        cash: "",
-        remark: "",
-        id: ""
-      },
       //表格下拉的数据
       format_type_list: [
         "提现",
@@ -92,13 +84,23 @@ export default {
         //validate 验证要添加的表单
         this.$refs[form].validate(valid =>{
             if(valid){//如果有添加的数据 泽提交
-            this.$axios.post('/api/profiles/add',this.formData)
+            const url = this.dialog.option == 'add' ? 'add' : `edit/${this.formData.id}`;
+            this.$axios.post(`/api/profiles/${url}`,this.formData)
             .then(res=>{
                 //添加成功
-                this.$message({
+                if(url == 'add'){
+                    this.$message({
                     message:'数据添加成功',
                     type: 'success'
                 })
+                }else{
+                  this.$message({
+                    message:'数据修改成功',
+                    type: 'success'
+                })
+                }
+                
+                
             });
             //添加完后隐藏提交的表单dialog
                 this.dialog.show = false;
